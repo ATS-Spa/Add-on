@@ -46,15 +46,15 @@
     display:flex; flex-direction:column;
   }
 
-  hr { border:none; border-top:1.8px solid black; margin:1.2mm 0; }
-  hr.thin { border-top:1.8px solid black; margin:1mm 0; }
+  hr { border:none; border-top:1.8px solid black; margin:0.7mm 0; }
+  hr.thin { border-top:1.8px solid black; margin:0.5mm 0; }
 
   /* --- Riga generica con: [vert+QR a sx] [testo al centro] [logo opzionale a dx] --- */
   .et-row {
     display: flex;
     align-items: center;
     gap: 1.5mm;
-    margin-bottom: 0.8mm;
+    margin-bottom: 0.3mm;
   }
 
   /* Colonna sinistra: scritta verticale + QR */
@@ -263,10 +263,14 @@ function creaEtichetta10x10(CodiceBP, PartNumber, SerialNumber, ArticoloWMS, PO,
 
     <hr>
 
-    <!-- RIGA 3: Articolo centrato + barcode + WMS -->
-    <div style="text-align:center; font-weight:bold; font-size:9pt; margin-bottom:0.5mm;">Articolo</div>
-    <svg class="barcode-svg" id="${bcId}"></svg>
-    <div class="wms">${ArticoloWMS}</div>
+    <!-- RIGA 3: Articolo verticale a sinistra + barcode + WMS -->
+    <div style="display:flex; align-items:center; gap:1mm;">
+      <span style="font-size:7pt; font-weight:bold; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:0.3px; white-space:nowrap; flex-shrink:0;">Articolo</span>
+      <div style="flex:1;">
+        <svg class="barcode-svg" id="${bcId}" style="width:100%;"></svg>
+        <div class="wms">${ArticoloWMS}</div>
+      </div>
+    </div>
 
     <hr>
 

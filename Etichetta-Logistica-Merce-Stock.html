@@ -227,39 +227,49 @@ function downloadTemplate() {
 
 /* ============================================================
    ETICHETTA 10x10
-   Struttura ogni sezione: [vert] [QR]  [TESTO]  [logo]
+   Layout:
+   - Riga 1: logo ATS in alto a destra (solo)
+   - Riga 2: [COD BP vert][QR] | "Codice BP" + valore CENTRATI
+   - Riga 3: "Articolo" centrato + barcode + WMS
+   - Riga 4: PO sx / Posizione dx
+   - Riga 5: [TPN vert][QR] | label+valore TUTTO A DESTRA
+   - Riga 6: [SN vert][QR]  | label+valore TUTTO A DESTRA
    ============================================================ */
 function creaEtichetta10x10(CodiceBP, PartNumber, SerialNumber, ArticoloWMS, PO, Posizione, Ubicazione, bcId){
-  const qrBP  = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(CodiceBP)}`;
-  const qrPN  = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(PartNumber)}`;
-  const qrSN  = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(SerialNumber)}`;
-  const logo  = `https://raw.githubusercontent.com/Daniele1995-design/WebAppSap/refs/heads/main/logo%20ats.jpg`;
+  const qrBP = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(CodiceBP)}`;
+  const qrPN = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(PartNumber)}`;
+  const qrSN = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(SerialNumber)}`;
+  const logo = `https://raw.githubusercontent.com/Daniele1995-design/WebAppSap/refs/heads/main/logo%20ats.jpg`;
 
   return `<div class="etichetta-10x10">
 
-    <!-- SEZIONE CODICE BP: [COD BP vert] [QR] [testo] [logo] -->
+    <!-- RIGA 1: logo ATS in alto a destra da solo -->
+    <div style="text-align:right; margin-bottom:1mm;">
+      <img style="height:9mm;" src="${logo}">
+    </div>
+
+    <!-- RIGA 2: [COD BP vert][QR] | Codice BP centrato -->
     <div class="et-row">
       <div class="et-left">
         <span class="et-vert">COD BP</span>
         <img class="et-qr" src="${qrBP}">
       </div>
-      <div class="et-body">
+      <div class="et-body" style="text-align:center;">
         <span class="lbl">Codice BP</span>
         <span class="val-lg">${CodiceBP}</span>
       </div>
-      <img class="et-logo" src="${logo}">
     </div>
 
     <hr>
 
-    <!-- SEZIONE ARTICOLO: barcode centrato, niente QR laterale -->
-    <div class="art-label">Articolo</div>
+    <!-- RIGA 3: Articolo centrato + barcode + WMS -->
+    <div style="text-align:center; font-weight:bold; font-size:9pt; margin-bottom:0.5mm;">Articolo</div>
     <svg class="barcode-svg" id="${bcId}"></svg>
     <div class="wms">${ArticoloWMS}</div>
 
     <hr>
 
-    <!-- PO + Posizione -->
+    <!-- RIGA 4: PO sx / Posizione dx -->
     <div class="po-row">
       <div class="po-col">
         <span class="po-label">Po Nr°</span>
@@ -273,13 +283,13 @@ function creaEtichetta10x10(CodiceBP, PartNumber, SerialNumber, ArticoloWMS, PO,
 
     <hr class="thin">
 
-    <!-- SEZIONE PART NUMBER: [TPN vert] [QR] [testo] -->
+    <!-- RIGA 5: [TPN vert][QR] | Part Number TUTTO A DESTRA -->
     <div class="et-row">
       <div class="et-left">
         <span class="et-vert">TPN</span>
         <img class="et-qr" src="${qrPN}">
       </div>
-      <div class="et-body">
+      <div class="et-body" style="text-align:right;">
         <span class="lbl">Part Number</span>
         <span class="val-md">${PartNumber}</span>
       </div>
@@ -287,20 +297,20 @@ function creaEtichetta10x10(CodiceBP, PartNumber, SerialNumber, ArticoloWMS, PO,
 
     <hr class="thin">
 
-    <!-- SEZIONE SERIAL NUMBER: [SN vert] [QR] [testo] -->
+    <!-- RIGA 6: [SN vert][QR] | SerialNumber TUTTO A DESTRA -->
     <div class="et-row">
       <div class="et-left">
         <span class="et-vert">SN</span>
         <img class="et-qr" src="${qrSN}">
       </div>
-      <div class="et-body">
+      <div class="et-body" style="text-align:right;">
         <span class="lbl">SerialNumber/Lotto</span>
         <span class="val-md">${SerialNumber}</span>
       </div>
     </div>
 
-    <!-- Ubicazione -->
-    <div class="ubicazione" style="padding-left:14mm;">
+    <!-- Ubicazione a destra -->
+    <div style="text-align:right; margin-top:0.5mm;">
       <span class="lbl">Ubicazione</span>
       <span class="val-sm">${Ubicazione}</span>
     </div>

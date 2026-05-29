@@ -298,8 +298,11 @@ function creaEtichetta10x10(CodiceBP, PartNumber, SerialNumber, ArticoloWMS, PO,
 
     <hr class="thin">
 
-    <!-- RIGA 6: [SN vert][QR] | SerialNumber TUTTO A DESTRA - spinto in basso -->
-    <div class="et-row" style="margin-top:auto;">
+    <!-- SPACER flessibile: occupa tutto lo spazio rimanente tra TPN e SN -->
+    <div style="flex:1;"></div>
+
+    <!-- RIGA 6: [SN vert][QR] | SerialNumber TUTTO A DESTRA - spinto al fondo -->
+    <div class="et-row" style="margin-top:0;">
       <div class="et-left">
         <span class="et-vert">SN</span>
         <img class="et-qr" src="${qrSN}">

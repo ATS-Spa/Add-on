@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Estrazione Dati MOD GRN + Stampa Etichette 10x10 e 10x5
 // @namespace    http://tampermonkey.net/
-// @version      31.0
+// @version      32.0
 // @description  Esporta seriali e lotti in CSV e XLXS separati e aggiunge funzionalità di stampa etichette 10x10 e 10x5 + filtro e scroll righe patch 02092026
 // @author       Daniele Izzo
 // @match        http://172.18.20.20/GRN/*
@@ -565,15 +565,15 @@ hr.thin { border-top: 1.8px solid black; margin: 0.5mm 0; }
             div.className = 'etichetta-10x10';
             div.innerHTML = \`
                 <!-- RIGA 1: logo ATS in alto a destra -->
-                <div style="text-align:right; margin-bottom:1mm;">
+                <div style="text-align:right;">
                   <img style="height:9mm;" src="\${logo}">
                 </div>
 
                 <!-- RIGA 2: [COD BP vert][QR] | Codice BP centrato -->
-                <div class="et-row" style="align-items:flex-start; margin-top:-0.5mm;">
+                <div class="et-row" style="align-items:flex-start; margin-top:-3mm;">
                   <div class="et-left">
                     <span class="et-vert">COD BP</span>
-                    <div class="et-qr" id="qr-bp-\${idx}" style="margin-top:-0.5mm;"></div>
+                    <div class="et-qr" id="qr-bp-\${idx}" style="margin-top:-1mm;"></div>
                   </div>
                   <div class="et-body" style="text-align:center;">
                     <span class="lbl">Codice BP</span>

@@ -1076,6 +1076,12 @@ select.addEventListener('change', () => {
             dropdown.style.display = 'none';
             await waitForSerials(5000);
             const data = getDataFromLi(li);
+            console.log('🔎 DEBUG stampa riga (10x10):', {
+                riferimentoOrdine: data.riferimentoOrdine,
+                riferimento: data.riferimento,
+                posizione: data.posizione,
+                itemContainerHTML: (li.querySelector("div[id^='item-']") || li).outerHTML
+            });
             printLabelsForRow(data);
         };
 
@@ -1087,6 +1093,12 @@ select.addEventListener('change', () => {
             dropdown.style.display = 'none';
             await waitForSerials(5000);
             const data = getDataFromLi(li);
+            console.log('🔎 DEBUG stampa riga (10x5):', {
+                riferimentoOrdine: data.riferimentoOrdine,
+                riferimento: data.riferimento,
+                posizione: data.posizione,
+                itemContainerHTML: (li.querySelector("div[id^='item-']") || li).outerHTML
+            });
             printLabels10x5ForRow(data);
         };
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Estrazione Dati MOD GRN + Stampa Etichette 10x10 e 10x5
 // @namespace    http://tampermonkey.net/
-// @version      24.0
+// @version      29.0
 // @description  Esporta seriali e lotti in CSV e XLXS separati e aggiunge funzionalità di stampa etichette 10x10 e 10x5 + filtro e scroll righe patch 02092026
 // @author       Daniele Izzo
 // @match        http://172.18.20.20/GRN/*
@@ -114,51 +114,6 @@ function toCSV(rows) {
         }
         return '';
     }
-
-function showDebugOverlay(title, data) {
-    const old = document.getElementById('grn-debug-overlay');
-    if (old) old.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'grn-debug-overlay';
-    overlay.style.cssText = `
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.85); z-index: 999999;
-        display: flex; align-items: center; justify-content: center;
-        padding: 10px;
-    `;
-
-    const box = document.createElement('div');
-    box.style.cssText = `
-        background: white; border-radius: 8px; padding: 12px;
-        max-width: 100%; max-height: 90%; overflow: auto;
-        width: 100%;
-    `;
-
-    const h = document.createElement('h3');
-    h.textContent = title;
-    h.style.cssText = 'margin: 0 0 8px 0; font-size: 16px;';
-
-    const pre = document.createElement('pre');
-    pre.style.cssText = `
-        white-space: pre-wrap; word-break: break-all;
-        font-size: 12px; background: #f5f5f5; padding: 8px;
-        border-radius: 4px; user-select: text;
-        -webkit-user-select: text;
-    `;
-    pre.textContent = JSON.stringify(data, null, 2);
-
-    const btn = document.createElement('button');
-    btn.textContent = 'Chiudi';
-    btn.style.cssText = 'margin-top: 10px; padding: 10px 20px; font-size: 16px;';
-    btn.onclick = () => overlay.remove();
-
-    box.appendChild(h);
-    box.appendChild(pre);
-    box.appendChild(btn);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-}
 
 function getDataFromLi(li) {
     const dropdown = li.querySelector("div[id^='dropdown-']");
@@ -590,10 +545,10 @@ hr.thin { border-top: 1.8px solid black; margin: 0.5mm 0; }
 .barcode-svg { width: 100%; height: 26px; margin: 0 auto 0.5mm; display: block; }
 .wms { text-align: center; font-size: 10.5pt; font-weight: bold; margin-bottom: 0.5mm; }
 .po-row { display: flex; justify-content: space-between; align-items: flex-start; margin: 0.8mm 0; }
-.po-col { flex: 1; }
+.po-col { flex: 1; min-width: 0; }
 .po-col.right { text-align: right; }
 .po-label { font-size: 9pt; font-weight: bold; }
-.po-value { font-size: 18pt; font-weight: bold; line-height: 1; display: block; }
+.po-value { font-size: 18pt; font-weight: bold; line-height: 1; display: block; word-break: break-all; overflow-wrap: break-word; }
 </style>
 </head>
 <body>
@@ -1121,12 +1076,6 @@ select.addEventListener('change', () => {
             dropdown.style.display = 'none';
             await waitForSerials(5000);
             const data = getDataFromLi(li);
-            showDebugOverlay('DEBUG stampa riga (10x10)', {
-                riferimentoOrdine: data.riferimentoOrdine,
-                riferimento: data.riferimento,
-                posizione: data.posizione,
-                itemContainerHTML: (li.querySelector("div[id^='item-']") || li).outerHTML
-            });
             printLabelsForRow(data);
         };
 
@@ -1138,12 +1087,6 @@ select.addEventListener('change', () => {
             dropdown.style.display = 'none';
             await waitForSerials(5000);
             const data = getDataFromLi(li);
-            showDebugOverlay('DEBUG stampa riga (10x5)', {
-                riferimentoOrdine: data.riferimentoOrdine,
-                riferimento: data.riferimento,
-                posizione: data.posizione,
-                itemContainerHTML: (li.querySelector("div[id^='item-']") || li).outerHTML
-            });
             printLabels10x5ForRow(data);
         };
 

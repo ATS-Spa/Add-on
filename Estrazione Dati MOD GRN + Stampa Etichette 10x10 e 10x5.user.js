@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Estrazione Dati MOD GRN + Stampa Etichette 10x10 e 10x5
 // @namespace    http://tampermonkey.net/
-// @version      27.0
+// @version      24.0
 // @description  Esporta seriali e lotti in CSV e XLXS separati e aggiunge funzionalità di stampa etichette 10x10 e 10x5 + filtro e scroll righe patch 02092026
 // @author       Daniele Izzo
 // @match        http://172.18.20.20/GRN/*
@@ -1076,12 +1076,6 @@ select.addEventListener('change', () => {
             dropdown.style.display = 'none';
             await waitForSerials(5000);
             const data = getDataFromLi(li);
-            console.log('🔎 DEBUG stampa riga (10x10):', {
-                riferimentoOrdine: data.riferimentoOrdine,
-                riferimento: data.riferimento,
-                posizione: data.posizione,
-                itemContainerHTML: (li.querySelector("div[id^='item-']") || li).outerHTML
-            });
             printLabelsForRow(data);
         };
 
@@ -1093,12 +1087,6 @@ select.addEventListener('change', () => {
             dropdown.style.display = 'none';
             await waitForSerials(5000);
             const data = getDataFromLi(li);
-            console.log('🔎 DEBUG stampa riga (10x5):', {
-                riferimentoOrdine: data.riferimentoOrdine,
-                riferimento: data.riferimento,
-                posizione: data.posizione,
-                itemContainerHTML: (li.querySelector("div[id^='item-']") || li).outerHTML
-            });
             printLabels10x5ForRow(data);
         };
 

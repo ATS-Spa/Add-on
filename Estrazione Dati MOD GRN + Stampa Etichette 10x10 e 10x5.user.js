@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Estrazione Dati MOD GRN + Stampa Etichette 10x10 e 10x5
 // @namespace    http://tampermonkey.net/
-// @version      30.0
+// @version      31.0
 // @description  Esporta seriali e lotti in CSV e XLXS separati e aggiunge funzionalità di stampa etichette 10x10 e 10x5 + filtro e scroll righe patch 02092026
 // @author       Daniele Izzo
 // @match        http://172.18.20.20/GRN/*
@@ -545,10 +545,10 @@ hr.thin { border-top: 1.8px solid black; margin: 0.5mm 0; }
 .barcode-svg { width: 100%; height: 26px; margin: 0 auto 0.5mm; display: block; }
 .wms { text-align: center; font-size: 10.5pt; font-weight: bold; margin-bottom: 0.5mm; }
 .po-row { display: flex; justify-content: space-between; align-items: flex-start; margin: 0.8mm 0; }
-.po-col { flex: 1; }
+.po-col { flex: 1; min-width: 0; }
 .po-col.right { text-align: right; }
 .po-label { font-size: 9pt; font-weight: bold; }
-.po-value { font-size: 18pt; font-weight: bold; line-height: 1; display: block; }
+.po-value { font-size: 18pt; font-weight: bold; line-height: 1; display: block; word-break: break-all; overflow-wrap: break-word; }
 </style>
 </head>
 <body>
@@ -570,10 +570,10 @@ hr.thin { border-top: 1.8px solid black; margin: 0.5mm 0; }
                 </div>
 
                 <!-- RIGA 2: [COD BP vert][QR] | Codice BP centrato -->
-                <div class="et-row" style="align-items:flex-start;">
+                <div class="et-row" style="align-items:flex-start; margin-top:-0.5mm;">
                   <div class="et-left">
                     <span class="et-vert">COD BP</span>
-                    <div class="et-qr" id="qr-bp-\${idx}"></div>
+                    <div class="et-qr" id="qr-bp-\${idx}" style="margin-top:-0.5mm;"></div>
                   </div>
                   <div class="et-body" style="text-align:center;">
                     <span class="lbl">Codice BP</span>
@@ -583,8 +583,8 @@ hr.thin { border-top: 1.8px solid black; margin: 0.5mm 0; }
 
                 <hr>
 
-                <!-- Piccolo spazio tra Codice BP e Articolo -->
-                <div style="height:1mm;"></div>
+                <!-- Spazio tra Codice BP e Articolo (aumentato per più separazione dal barcode) -->
+                <div style="height:2.5mm;"></div>
 
                 <!-- RIGA 3: [Articolo vert] + barcode + WMS -->
                 <div style="display:flex; align-items:center; gap:1mm;">
